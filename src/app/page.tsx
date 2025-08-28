@@ -153,7 +153,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
               <p className="text-xs text-foreground/60">Documentação da Plataforma Nexus</p>
             </div>
 
-            {/* Navegation */}
+            {/* Navigation */}
             <nav className="space-y-2 text-sm">
               <details className="group" data-collapse id="platform" open>
                 <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-2 text-xs uppercase tracking-widest text-foreground/70 hover:bg-foreground/5 transition-colors">
@@ -291,7 +291,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
           />
         </aside>
 
-        {/* Conteúdo */}
+        {/* Content */}
         <main className="p-6 sm:p-8">
           <div className="mx-auto w-full max-w-4xl">
             {/* Breadcrumb */}
@@ -303,13 +303,13 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
               <span className="text-foreground">Docs</span>
             </div>
 
-            {/* Título */}
+            {/* Title */}
             <h1 className="text-2xl font-semibold tracking-tight mb-2 article-animate">{current.title}</h1>
             <p className="text-sm text-foreground/60 mb-6 article-animate">
               Selecione outros documentos nas abas ou no menu lateral.
             </p>
 
-            {/* Abas */}
+            {/* Tabs */}
             <div className="mb-4 overflow-x-auto article-animate">
               <div className="flex gap-2">
                 {(Object.keys(DOCS) as DocKey[]).map((key) => {
