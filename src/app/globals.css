@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  scroll-behavior: smooth;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+/* Subtle scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--foreground) 20%, transparent) transparent;
+}
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--foreground) 20%, transparent);
+  border-radius: 8px;
+}
+
+/* Typography/layout for rendered docs */
+.prose-style {
+  line-height: 1.7;
+  font-size: 0.95rem;
+  padding: 1.25rem;
+  max-width: 72ch;       /* ideal reading width */
+  margin-inline: auto;   /* center article content */
+}
+.prose-style h1,
+.prose-style h2,
+.prose-style h3,
+.prose-style h4,
+.prose-style h5,
+.prose-style h6 {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+.prose-style h1 { font-size: 1.875rem; }
+.prose-style h2 { font-size: 1.375rem; }
+.prose-style h3 { font-size: 1.125rem; color: color-mix(in oklab, var(--foreground) 85%, transparent); }
+.prose-style p { margin: 0.6em 0; }
+.prose-style ul, .prose-style ol { padding-left: 1.25rem; margin: 0.6em 0; }
+.prose-style li { margin: 0.25em 0; }
+
+/* Inline code */
+.prose-style code {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9em;
+  background: color-mix(in oklab, var(--foreground) 8%, var(--background));
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.35rem;
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+/* Single code block styling lives on <pre>, not on inner <code> */
+.prose-style pre {
+  background: color-mix(in oklab, var(--foreground) 6%, var(--background));
+  padding: 0.9rem 1rem;
+  border-radius: 0.6rem;
+  overflow: auto;
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+/* Avoid “one box per line” inside pre > code */
+.prose-style pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+/* Tables */
+.prose-style table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95em;
+}
+.prose-style th, .prose-style td {
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  padding: 0.5rem 0.6rem;
+  vertical-align: top;
+}
+.prose-style thead th {
+  background: color-mix(in oklab, var(--foreground) 6%, var(--background));
+  font-weight: 600;
+}
+.prose-style tr:nth-child(even) td {
+  background: color-mix(in oklab, var(--foreground) 4%, var(--background));
+}
+.prose-style hr {
+  border: 0;
+  height: 1px;
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  margin: 1.25rem 0;
+}
+
+/* Fade/slide-in for content */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.article-animate {
+  animation: fadeInUp 220ms ease-out both;
+}
+
+/* Minor refinements */
+.prose-style blockquote {
+  border-left: 3px solid color-mix(in oklab, var(--foreground) 20%, transparent);
+  padding-left: 0.75rem;
+  color: color-mix(in oklab, var(--foreground) 75%, transparent);
+}
