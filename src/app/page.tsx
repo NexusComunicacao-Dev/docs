@@ -150,7 +150,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
               <Link href="/" className="block text-lg font-semibold tracking-tight transition-colors hover:text-foreground/80">
                 Nexus Docs
               </Link>
-              <p className="text-xs text-foreground/60">Documentação do Backend</p>
+              <p className="text-xs text-foreground/60">Documentação da Plataforma Nexus</p>
             </div>
 
             {/* Navegação colapsável com JS */}
