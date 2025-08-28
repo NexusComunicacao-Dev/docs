@@ -153,51 +153,61 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
               <p className="text-xs text-foreground/60">Documentação da Plataforma Nexus</p>
             </div>
 
-            {/* Navegação colapsável com JS */}
+            {/* Navegation */}
             <nav className="space-y-2 text-sm">
-              <details className="group" data-collapse id="backend" open>
+              <details className="group" data-collapse id="platform" open>
                 <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-2 text-xs uppercase tracking-widest text-foreground/70 hover:bg-foreground/5 transition-colors">
-                  <span>Backend</span>
+                  <span>Plataforma Nexus</span>
                   <span className="transition-transform duration-300 group-open:rotate-90">›</span>
                 </summary>
 
                 <div data-collapse-content>
-                  <details className="group" data-collapse id="config" open>
-                    <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
-                      <span>Config</span>
+                  {/* Backend  */}
+                  <details className="group" data-collapse id="backend" open>
+                    <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-2 pl-6 text-xs uppercase tracking-widest text-foreground/70 hover:bg-foreground/5 transition-colors">
+                      <span>Backend</span>
                       <span className="transition-transform duration-300 group-open:rotate-90">›</span>
                     </summary>
 
                     <div data-collapse-content>
-                      <ul className="mt-1 space-y-1">
-                        {(Object.keys(DOCS) as DocKey[]).map((key) => {
-                          const active = key === docKey;
-                          return (
-                            <li key={key}>
-                              <Link
-                                href={`/?doc=${key}`}
-                                className={[
-                                  "block rounded-md px-3 py-2 transition-all",
-                                  active
-                                    ? "bg-foreground/10 text-foreground"
-                                    : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
-                                ].join(" ")}
-                              >
-                                {
-                                  {
-                                    helmet: "Helmet (segurança)",
-                                    auth: "Auth Middleware",
-                                    database: "Database",
-                                    adminRoutesTs: "Admin Routes (admin)",
-                                    adminRoutes: "Admin Routes (app)",
-                                    env: "Env",
-                                  }[key]
-                                }
-                              </Link>
-                            </li>
-                          );
-                        })}
-                      </ul>
+                      <details className="group" data-collapse id="config" open>
+                        <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-8 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
+                          <span>Config</span>
+                          <span className="transition-transform duration-300 group-open:rotate-90">›</span>
+                        </summary>
+
+                        <div data-collapse-content>
+                          <ul className="mt-1 space-y-1 pl-8">
+                            {(Object.keys(DOCS) as DocKey[]).map((key) => {
+                              const active = key === docKey;
+                              return (
+                                <li key={key}>
+                                  <Link
+                                    href={`/?doc=${key}`}
+                                    className={[
+                                      "block rounded-md px-3 py-2 transition-all",
+                                      active
+                                        ? "bg-foreground/10 text-foreground"
+                                        : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
+                                    ].join(" ")}
+                                  >
+                                    {
+                                      {
+                                        helmet: "Helmet (segurança)",
+                                        auth: "Auth Middleware",
+                                        database: "Database",
+                                        adminRoutesTs: "Admin Routes (admin)",
+                                        adminRoutes: "Admin Routes (app)",
+                                        env: "Env",
+                                      }[key]
+                                    }
+                                  </Link>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </details>
                     </div>
                   </details>
                 </div>
