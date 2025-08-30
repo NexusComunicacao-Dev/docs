@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Nexus Docs",
-  description: "Documentação do backend do NexusPlatform",
+  description: "Documentação da Plataforma da Nexus Comunicações",
 };
 
 export default function RootLayout({
