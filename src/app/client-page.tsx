@@ -101,6 +101,35 @@ function Sidebar({
     };
   }, []);
 
+  // Labels e chaves por grupo
+  const getLabel = (key: DocKey) =>
+    ({
+      helmet: "Helmet",
+      database: "Database",
+      adminRoutesTs: "Admin Routes",
+      adminRoutes: "Routes",
+      env: "Env",
+
+      // Middleware
+      authMiddleware: "Auth Middleware",
+      errorHandler: "Error Handler",
+      roleMiddleware: "Role Middleware",
+
+      // Integrations
+      actionVoice: "ActionVoice",
+      awsPinpoint: "AWS Pinpoint",
+      awsS3: "AWS S3",
+    } as Partial<Record<DocKey, string>>)[key] || docs[key]?.title || key;
+
+  const configKeys = (["helmet", "database", "env", "adminRoutes", "adminRoutesTs"] as DocKey[])
+    .filter((k) => docs[k]);
+  const middlewareKeys = (["authMiddleware", "errorHandler", "roleMiddleware"] as DocKey[])
+    .filter((k) => docs[k]);
+
+  // Integrations com subgrupos
+  const integrationsActionVoiceKeys = (["actionVoice"] as DocKey[]).filter((k) => docs[k]);
+  const integrationsAwsKeys = (["awsPinpoint", "awsS3"] as DocKey[]).filter((k) => docs[k]);
+
   return (
     <>
       {/* Overlay para mobile */}
@@ -160,6 +189,7 @@ function Sidebar({
                   </summary>
 
                   <div data-collapse-content>
+                    {/* Config */}
                     <details className="group" data-collapse id="config" open>
                       <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-8 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
                         <span>Config</span>
@@ -168,7 +198,7 @@ function Sidebar({
 
                       <div data-collapse-content>
                         <ul className="mt-1 space-y-1 pl-8">
-                          {(Object.keys(docs) as DocKey[]).map((key) => {
+                          {configKeys.map((key) => {
                             const active = key === docKey;
                             return (
                               <li key={key}>
@@ -182,21 +212,116 @@ function Sidebar({
                                       : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
                                   ].join(" ")}
                                 >
-                                  {
-                                    {
-                                      helmet: "Helmet (segurança)",
-                                      auth: "Auth Middleware",
-                                      database: "Database",
-                                      adminRoutesTs: "Admin Routes (admin)",
-                                      adminRoutes: "Admin Routes (app)",
-                                      env: "Env",
-                                    }[key] || docs[key]?.title || key
-                                  }
+                                  {getLabel(key)}
                                 </Link>
                               </li>
                             );
                           })}
                         </ul>
+                      </div>
+                    </details>
+
+                    {/* Middleware */}
+                    <details className="group" data-collapse id="middleware" open>
+                      <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-8 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
+                        <span>Middleware</span>
+                        <span className="transition-transform duration-300 group-open:rotate-90">›</span>
+                      </summary>
+
+                      <div data-collapse-content>
+                        <ul className="mt-1 space-y-1 pl-8">
+                          {middlewareKeys.map((key) => {
+                            const active = key === docKey;
+                            return (
+                              <li key={key}>
+                                <Link
+                                  href={`/?doc=${key}`}
+                                  onClick={onMobileClose}
+                                  className={[
+                                    "block rounded-md px-3 py-2 transition-all",
+                                    active
+                                      ? "bg-foreground/10 text-foreground"
+                                      : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
+                                  ].join(" ")}
+                                >
+                                  {getLabel(key)}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </details>
+
+                    {/* Integrations */}
+                    <details className="group" data-collapse id="integrations" open>
+                      <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-8 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
+                        <span>Integrations</span>
+                        <span className="transition-transform duration-300 group-open:rotate-90">›</span>
+                      </summary>
+
+                      <div data-collapse-content>
+                        {/* Action Voice */}
+                        <details className="group" data-collapse id="integrations-actionvoice" open>
+                          <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-10 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
+                            <span>Action Voice</span>
+                            <span className="transition-transform duration-300 group-open:rotate-90">›</span>
+                          </summary>
+                          <div data-collapse-content>
+                            <ul className="mt-1 space-y-1 pl-10">
+                              {integrationsActionVoiceKeys.map((key) => {
+                                const active = key === docKey;
+                                return (
+                                  <li key={key}>
+                                    <Link
+                                      href={`/?doc=${key}`}
+                                      onClick={onMobileClose}
+                                      className={[
+                                        "block rounded-md px-3 py-2 transition-all",
+                                        active
+                                          ? "bg-foreground/10 text-foreground"
+                                          : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
+                                      ].join(" ")}
+                                    >
+                                      {getLabel(key)}
+                                    </Link>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        </details>
+
+                        {/* AWS */}
+                        <details className="group" data-collapse id="integrations-aws" open>
+                          <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-10 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
+                            <span>AWS</span>
+                            <span className="transition-transform duration-300 group-open:rotate-90">›</span>
+                          </summary>
+                          <div data-collapse-content>
+                            <ul className="mt-1 space-y-1 pl-10">
+                              {integrationsAwsKeys.map((key) => {
+                                const active = key === docKey;
+                                return (
+                                  <li key={key}>
+                                    <Link
+                                      href={`/?doc=${key}`}
+                                      onClick={onMobileClose}
+                                      className={[
+                                        "block rounded-md px-3 py-2 transition-all",
+                                        active
+                                          ? "bg-foreground/10 text-foreground"
+                                          : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
+                                      ].join(" ")}
+                                    >
+                                      {getLabel(key)}
+                                    </Link>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        </details>
                       </div>
                     </details>
                   </div>

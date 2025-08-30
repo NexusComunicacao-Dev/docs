@@ -8,25 +8,49 @@ const DOCS = {
     title: "src/config/helmet.ts",
     file: "src/docs/backend/config/src_config_helmet.html",
   },
-  auth: {
-    title: "Middleware/authMiddleware",
-    file: "src/docs/backend/config/Middleware_authMiddleware.html",
-  },
   database: {
     title: "src/config/database.ts",
     file: "src/docs/backend/config/src_config_database.html",
   },
   adminRoutesTs: {
-    title: "src/config/admin-routes.ts (admin)",
+    title: "src/config/admin-routes.ts",
     file: "src/docs/backend/config/src_config_admin_routes.ts.html",
   },
   adminRoutes: {
-    title: "src/config/admin-routes.ts (app)",
-    file: "src/docs/backend/config/src_config_admin_routes.html",
+    title: "src/config/routes.ts",
+    file: "src/docs/backend/config/src_config_routes.html",
   },
   env: {
     title: "src/config/env.ts",
     file: "src/docs/backend/config/src_config_env.html",
+  },
+
+  // Middleware
+  errorHandler: {
+    title: "Middleware/errorHandler.ts",
+    file: "src/docs/backend/middleware/middleware_error_Handler.html",
+  },
+  roleMiddleware: {
+    title: "Middleware/roleMiddleware.ts",
+    file: "src/docs/backend/middleware/middleware_role_Middleware.html",
+  },
+  authMiddleware: {
+    title: "Middleware/authMiddleware.ts",
+    file: "src/docs/backend/middleware/middleware_auth_Middleware.html",
+  },
+
+  // Integrations
+  actionVoice: {
+    title: "integrations/actionvoice",
+    file: "src/docs/backend/integrations/action_voice/integrations_actionvoice_index.html",
+  },
+  awsPinpoint: {
+    title: "integrations/aws/pinpoint",
+    file: "src/docs/backend/integrations/aws/pinpoint/integrations_aws_pinpoint_index.html",
+  },
+  awsS3: {
+    title: "integrations/aws/s3",
+    file: "src/docs/backend/integrations/aws/s3/integrations_aws_s3_index.html",
   },
 } as const;
 
