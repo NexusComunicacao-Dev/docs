@@ -43,14 +43,36 @@ body {
   border-radius: 8px;
 }
 
-/* Typography/layout for rendered docs */
+/* Hide scrollbar but keep functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Typography/layout for rendered docs - responsivo */
 .prose-style {
   line-height: 1.7;
-  font-size: 0.95rem;
-  padding: 1.25rem;
-  max-width: 72ch;       /* ideal reading width */
-  margin-inline: auto;   /* center article content */
+  font-size: 0.875rem; /* Menor no mobile */
+  padding: 1rem;        /* Menor no mobile */
+  max-width: none;      /* Sem limitação no mobile */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
+
+/* Responsivo para tablets e desktop */
+@media (min-width: 640px) {
+  .prose-style {
+    font-size: 0.95rem;
+    padding: 1.25rem;
+    max-width: 72ch;
+    margin-inline: auto;
+  }
+}
+
 .prose-style h1,
 .prose-style h2,
 .prose-style h3,
@@ -62,52 +84,124 @@ body {
   line-height: 1.25;
   margin-top: 1.25em;
   margin-bottom: 0.5em;
+  word-wrap: break-word;
 }
-.prose-style h1 { font-size: 1.875rem; }
-.prose-style h2 { font-size: 1.375rem; }
-.prose-style h3 { font-size: 1.125rem; color: color-mix(in oklab, var(--foreground) 85%, transparent); }
-.prose-style p { margin: 0.6em 0; }
-.prose-style ul, .prose-style ol { padding-left: 1.25rem; margin: 0.6em 0; }
+
+/* Tamanhos de título responsivos */
+.prose-style h1 { 
+  font-size: 1.5rem; /* Menor no mobile */
+}
+.prose-style h2 { 
+  font-size: 1.25rem; 
+}
+.prose-style h3 { 
+  font-size: 1.125rem; 
+  color: color-mix(in oklab, var(--foreground) 85%, transparent); 
+}
+
+@media (min-width: 640px) {
+  .prose-style h1 { font-size: 1.875rem; }
+  .prose-style h2 { font-size: 1.375rem; }
+}
+
+.prose-style p { 
+  margin: 0.6em 0; 
+  word-wrap: break-word;
+}
+.prose-style ul, .prose-style ol { 
+  padding-left: 1rem; /* Menor indentação no mobile */
+  margin: 0.6em 0; 
+}
+
+@media (min-width: 640px) {
+  .prose-style ul, .prose-style ol { 
+    padding-left: 1.25rem; 
+  }
+}
+
 .prose-style li { margin: 0.25em 0; }
 
-/* Inline code */
+/* Inline code - responsivo */
 .prose-style code {
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.9em;
+  font-size: 0.85em; /* Menor no mobile */
   background: color-mix(in oklab, var(--foreground) 8%, var(--background));
-  padding: 0.15rem 0.35rem;
-  border-radius: 0.35rem;
+  padding: 0.1rem 0.25rem; /* Menor no mobile */
+  border-radius: 0.25rem;
   border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  word-break: break-all; /* Para evitar overflow */
 }
 
-/* Single code block styling lives on <pre>, not on inner <code> */
+@media (min-width: 640px) {
+  .prose-style code {
+    font-size: 0.9em;
+    padding: 0.15rem 0.35rem;
+    border-radius: 0.35rem;
+    word-break: normal;
+  }
+}
+
+/* Code blocks - responsivo */
 .prose-style pre {
   background: color-mix(in oklab, var(--foreground) 6%, var(--background));
-  padding: 0.9rem 1rem;
-  border-radius: 0.6rem;
-  overflow: auto;
+  padding: 0.75rem; /* Menor no mobile */
+  border-radius: 0.5rem;
+  overflow-x: auto;
   border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  font-size: 0.8rem; /* Menor no mobile */
+  margin: 1rem 0;
 }
 
-/* Avoid “one box per line” inside pre > code */
+@media (min-width: 640px) {
+  .prose-style pre {
+    padding: 0.9rem 1rem;
+    border-radius: 0.6rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Avoid "one box per line" inside pre > code */
 .prose-style pre code {
   background: transparent;
   border: 0;
   padding: 0;
+  word-break: normal;
 }
 
-/* Tables */
+/* Tables - responsivo */
 .prose-style table {
   width: 100%;
   border-collapse: collapse;
   margin: 1rem 0;
-  font-size: 0.95em;
+  font-size: 0.8rem; /* Menor no mobile */
+  overflow-x: auto;
+  display: block;
+  white-space: nowrap;
 }
+
+@media (min-width: 640px) {
+  .prose-style table {
+    font-size: 0.95em;
+    display: table;
+    white-space: normal;
+  }
+}
+
 .prose-style th, .prose-style td {
   border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
-  padding: 0.5rem 0.6rem;
+  padding: 0.375rem 0.5rem; /* Menor no mobile */
   vertical-align: top;
+  word-wrap: break-word;
+  max-width: 200px; /* Limitar largura das células no mobile */
 }
+
+@media (min-width: 640px) {
+  .prose-style th, .prose-style td {
+    padding: 0.5rem 0.6rem;
+    max-width: none;
+  }
+}
+
 .prose-style thead th {
   background: color-mix(in oklab, var(--foreground) 6%, var(--background));
   font-weight: 600;
@@ -136,4 +230,39 @@ body {
   border-left: 3px solid color-mix(in oklab, var(--foreground) 20%, transparent);
   padding-left: 0.75rem;
   color: color-mix(in oklab, var(--foreground) 75%, transparent);
+  margin: 1rem 0;
+}
+
+/* Wrapper para tabelas com scroll horizontal no mobile */
+.prose-style > table {
+  min-width: 600px; /* Força scroll horizontal se necessário */
+}
+
+/* Container para tabelas grandes */
+.table-container {
+  overflow-x: auto;
+  margin: 1rem 0;
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-radius: 0.5rem;
+}
+
+/* Melhorias para links */
+.prose-style a {
+  color: color-mix(in oklab, var(--foreground) 80%, #3b82f6 20%);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--foreground) 30%, transparent);
+  transition: all 200ms ease;
+  word-break: break-word;
+}
+
+.prose-style a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Responsive images */
+.prose-style img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
 }

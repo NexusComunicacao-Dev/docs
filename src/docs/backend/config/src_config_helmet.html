@@ -672,7 +672,7 @@
 			><span class="c2">&Uacute;ltima atualiza&ccedil;&atilde;o:</span
 			><span>&nbsp;26 de agosto de 2025<br /> </span
 			><span class="c2">Respons&aacute;vel:</span
-			><span class="c3">&nbsp;Ariel Spencer</span>
+			><span class="c3">&nbsp;Ariel Spencer & Fabrício Bahiense</span>
 		</p>
 		<h2
 			class="c21"
@@ -922,10 +922,9 @@
 		<p class="c14">
 			<span class="c2">&#60419;</span
 			><span class="c12 c1 c5 c9"
-				>import { helmetConfig, limiter } from
-				&#39;./config/helmet&#39;<br />import express from
-				&#39;express&#39;<br /><br />const app = express()<br /><br />//
-				Aplicar rate limiting<br />app.use(limiter)</span
+				>import { helmetConfig, limiter } from&#39;./config/helmet&#39;<br />import express from &#39;express&#39;
+				<br />const app = express()
+				<br />// Aplicar rate limiting<br />app.use(limiter)</span
 			>
 		</p>
 		<p class="c14">
@@ -1245,8 +1244,10 @@
 		<p class="c14">
 			<span class="c2 c29">&#60419;</span
 			><span class="c12 c1 c5 c9"
-				># Testar limite de requisi&ccedil;&otilde;es<br />for i in
-				{1..65}; do curl -I http://localhost:3001/api; done</span
+				># Testar limite de requisi&ccedil;&otilde;es
+				<br />for i in {1..65};
+				do curl -I http://localhost:3001/api; 
+				done</span
 			>
 		</p>
 		<p class="c14">
@@ -1267,11 +1268,14 @@
 			><span class="c12 c1 c5 c9">curl -I http://localhost:3001/api</span>
 		</p>
 		<p class="c14">
-			<span class="c12 c1 c5 c9"
-				># Verificar presen&ccedil;a de:<br /># X-XSS-Protection: 1;
-				mode=block<br /># X-Content-Type-Options: nosniff<br />#
-				X-Frame-Options: DENY<br /># (aus&ecirc;ncia de
-				X-Powered-By)</span
+			<span class="c12 c1 c5 c9">
+				# Verificar presen&ccedil;a de:
+				<br />
+				# X-XSS-Protection: 1;
+				mode=block<br />
+				# X-Content-Type-Options: nosniff<br />
+				# X-Frame-Options: DENY<br />
+				# (aus&ecirc;ncia de X-Powered-By)</span
 			>
 		</p>
 		<h2
@@ -1390,8 +1394,10 @@
 		<p class="c14">
 			<span class="c2 c29">&#60419;</span
 			><span class="c12 c1 c5 c9"
-				>// Configura&ccedil;&atilde;o mais robusta para
-				produ&ccedil;&atilde;o<br />const limiter = rateLimit({<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;windowMs:
+				>
+				// Configura&ccedil;&atilde;o mais robusta para produ&ccedil;&atilde;o
+				const limiter = rateLimit({
+				<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;windowMs:
 				15 * 60 * 1000, // 15 minutos<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;max:
 				1000, // 1000 requests por 15min<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skipSuccessfulRequests:
 				true, // N&atilde;o contar responses 2xx<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;keyGenerator:
@@ -1450,7 +1456,7 @@
 		<p class="c14">
 			<span class="c30"
 				>&Uacute;ltima revis&atilde;o: 26 de agosto de 2025 por Ariel
-				Spencer</span
+				Spencer & Fabrício Bahiense</span
 			>
 		</p>
 	</body>

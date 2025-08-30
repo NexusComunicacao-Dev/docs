@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
-import Link from "next/link";
-
+import ClientPage from "./client-page";
 type SearchParams = { [key: string]: string | string[] | undefined };
 
 const DOCS = {
@@ -31,7 +30,7 @@ const DOCS = {
   },
 } as const;
 
-type DocKey = keyof typeof DOCS;
+export type DocKey = keyof typeof DOCS;
 
 function getDocKey(param: string | string[] | undefined): DocKey {
   const key = Array.isArray(param) ? param[0] : param;
@@ -45,7 +44,6 @@ async function loadHtml(fileRelativePath: string) {
     const buf = await fs.readFile(fullPath);
     return buf.toString("utf-8");
   } catch {
-    // Mensagem em pt-BR
     return `<!doctype html><html><body><p style="font-family:Arial, sans-serif">Documento não encontrado ou erro ao carregar.</p></body></html>`;
   }
 }
@@ -134,213 +132,10 @@ function sanitizeAndExtract(html: string) {
 
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
-
   const docKey = getDocKey(params?.doc);
   const current = DOCS[docKey];
   const htmlRaw = await loadHtml(current.file);
   const html = sanitizeAndExtract(htmlRaw);
 
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="grid grid-cols-[280px_1fr] min-h-screen">
-        {/* Sidebar */}
-        <aside className="border-r border-black/10 dark:border-white/10 bg-background/60 backdrop-blur-sm sticky top-0 h-screen overflow-y-auto">
-          <div className="px-4 py-5">
-            <div className="mb-6">
-              <Link href="/" className="block text-lg font-semibold tracking-tight transition-colors hover:text-foreground/80">
-                Nexus Docs
-              </Link>
-              <p className="text-xs text-foreground/60">Documentação da Plataforma Nexus</p>
-            </div>
-
-            {/* Navigation */}
-            <nav className="space-y-2 text-sm">
-              <details className="group" data-collapse id="platform" open>
-                <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-2 text-xs uppercase tracking-widest text-foreground/70 hover:bg-foreground/5 transition-colors">
-                  <span>Plataforma Nexus</span>
-                  <span className="transition-transform duration-300 group-open:rotate-90">›</span>
-                </summary>
-
-                <div data-collapse-content>
-                  {/* Backend  */}
-                  <details className="group" data-collapse id="backend" open>
-                    <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-2 pl-6 text-xs uppercase tracking-widest text-foreground/70 hover:bg-foreground/5 transition-colors">
-                      <span>Backend</span>
-                      <span className="transition-transform duration-300 group-open:rotate-90">›</span>
-                    </summary>
-
-                    <div data-collapse-content>
-                      <details className="group" data-collapse id="config" open>
-                        <summary className="cursor-pointer flex items-center justify-between rounded-md px-2 py-1.5 pl-8 text-[11px] uppercase tracking-wide text-foreground/60 hover:bg-foreground/5 transition-colors">
-                          <span>Config</span>
-                          <span className="transition-transform duration-300 group-open:rotate-90">›</span>
-                        </summary>
-
-                        <div data-collapse-content>
-                          <ul className="mt-1 space-y-1 pl-8">
-                            {(Object.keys(DOCS) as DocKey[]).map((key) => {
-                              const active = key === docKey;
-                              return (
-                                <li key={key}>
-                                  <Link
-                                    href={`/?doc=${key}`}
-                                    className={[
-                                      "block rounded-md px-3 py-2 transition-all",
-                                      active
-                                        ? "bg-foreground/10 text-foreground"
-                                        : "hover:bg-foreground/5 text-foreground/80 hover:translate-x-0.5",
-                                    ].join(" ")}
-                                  >
-                                    {
-                                      {
-                                        helmet: "Helmet (segurança)",
-                                        auth: "Auth Middleware",
-                                        database: "Database",
-                                        adminRoutesTs: "Admin Routes (admin)",
-                                        adminRoutes: "Admin Routes (app)",
-                                        env: "Env",
-                                      }[key]
-                                    }
-                                  </Link>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </details>
-                    </div>
-                  </details>
-                </div>
-              </details>
-            </nav>
-          </div>
-
-          {/* Collapse animation + state persistence (comments in English) */}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-(function initSidebar(){
-  const onReady = (cb) => (document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', cb, { once: true }) : cb());
-  onReady(() => {
-    const STORAGE_KEY = 'nexus-docs-sidebar';
-    const getState = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; } };
-    const setState = (s) => localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-
-    const animateDetails = (details, willOpen) => {
-      const content = details.querySelector('[data-collapse-content]');
-      if (!content) return;
-      const beforeOpen = details.hasAttribute('open');
-
-      // Prepare measurements
-      if (willOpen && !beforeOpen) details.setAttribute('open', '');
-      const startHeight = willOpen ? 0 : content.getBoundingClientRect().height;
-      const endHeight = willOpen ? content.getBoundingClientRect().height : 0;
-
-      // Ensure overflow is hidden during animation
-      content.style.overflow = 'hidden';
-
-      // Animate height and opacity
-      const anim = content.animate(
-        [{ height: startHeight + 'px', opacity: willOpen ? 0.6 : 1 }, { height: endHeight + 'px', opacity: willOpen ? 1 : 0.6 }],
-        { duration: 260, easing: willOpen ? 'ease-out' : 'ease-in' }
-      );
-
-      anim.onfinish = () => {
-        if (!willOpen) details.removeAttribute('open');
-        content.style.height = '';
-        content.style.overflow = '';
-      };
-    };
-
-    // Restore saved state (no animation)
-    const saved = getState();
-    document.querySelectorAll('details[data-collapse]').forEach((d) => {
-      const id = d.id;
-      if (id && typeof saved[id] === 'boolean') {
-        if (saved[id]) d.setAttribute('open',''); else d.removeAttribute('open');
-      }
-    });
-
-    // Toggle with animation + persistence
-    document.querySelectorAll('details[data-collapse]').forEach((details) => {
-      const summary = details.querySelector('summary');
-      if (!summary) return;
-      summary.addEventListener('click', (e) => {
-        e.preventDefault();
-        const willOpen = !details.hasAttribute('open');
-        animateDetails(details, willOpen);
-        const id = details.id;
-        if (id) {
-          const state = getState();
-          state[id] = willOpen;
-          setState(state);
-        }
-      });
-    });
-
-    // Honor reduced motion
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (media.matches) {
-      document.querySelectorAll('details[data-collapse]').forEach((d) => {
-        d.addEventListener('click', () => { /* no-op: instant toggle */ });
-      });
-    }
-  });
-})();`,
-            }}
-          />
-        </aside>
-
-        {/* Content */}
-        <main className="p-6 sm:p-8">
-          <div className="mx-auto w-full max-w-4xl">
-            {/* Breadcrumb */}
-            <div className="mb-4 text-xs text-foreground/60 article-animate">
-              <span className="hover:text-foreground transition-colors">Backend</span>
-              <span className="mx-2">/</span>
-              <span className="hover:text-foreground transition-colors">Config</span>
-              <span className="mx-2">/</span>
-              <span className="text-foreground">Docs</span>
-            </div>
-
-            {/* Title */}
-            <h1 className="text-2xl font-semibold tracking-tight mb-2 article-animate">{current.title}</h1>
-            <p className="text-sm text-foreground/60 mb-6 article-animate">
-              Selecione outros documentos nas abas ou no menu lateral.
-            </p>
-
-            {/* Tabs */}
-            <div className="mb-4 overflow-x-auto article-animate">
-              <div className="flex gap-2">
-                {(Object.keys(DOCS) as DocKey[]).map((key) => {
-                  const active = key === docKey;
-                  return (
-                    <Link
-                      key={key}
-                      href={`/?doc=${key}`}
-                      className={[
-                        "whitespace-nowrap rounded-full border px-3 py-1.5 text-sm transition-all duration-200",
-                        active
-                          ? "border-foreground/20 bg-foreground/10 text-foreground shadow-sm"
-                          : "border-foreground/10 hover:bg-foreground/5 text-foreground/70 hover:border-foreground/20",
-                      ].join(" ")}
-                    >
-                      {DOCS[key].title.split("/").pop()}
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Viewer */}
-            <section className="rounded-lg border border-foreground/10 bg-background shadow-sm transition-all">
-              <article className="prose-style article-animate">
-                <div dangerouslySetInnerHTML={{ __html: html }} />
-              </article>
-            </section>
-          </div>
-        </main>
-      </div>
-    </div>
-  );
+  return <ClientPage html={html} docKey={docKey} current={current} docs={DOCS} />;
 }
